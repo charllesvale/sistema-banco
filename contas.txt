@@ -1,0 +1,5 @@
+1;charlles vale souza;1500
+2;jessica;2500.0
+3;olivia;800.0
+4;Sofia;500.0
+5;Gessiane;2.0
