@@ -1,60 +1,50 @@
 ARQ = "F:\\Logica de programação\\AT - LOGICA\\contas.txt"
 FIM = 0
-cliente = []
+client = []
 
-def mostra_linha():
+def show_lines():
     print("=" * 30)
 
+def line_acc_nm_blnc():
+    print("{:<5} {:<10} {:>15}".format('COD','NOME','SALDO'))
 
-def lendo_contas():
+def read_accounts():
     with(open(ARQ, "r")) as contas:
-        linha = contas.readline()
-        while(linha != ""):
-            linha = linha.strip("\n")
-            linha = linha.split(";")
-            cod = int(linha[0])
-            nome = linha[1]
-            saldo = float(linha[2])
-            conta = [cod, nome, saldo]
-            cliente.append(conta)
-            linha = contas.readline()
-    return cliente             
+        line = contas.readline()
+        while(line != ""):
+            line = line.strip("\n")
+            line = line.split(";")
+            cod = int(line[0])
+            name = line[1]
+            balance = float(line[2])
+            conta = [cod, name, balance]
+            client.append(conta)
+            line = contas.readline()
+    return client             
 
-
-def ler_relatorio_ger():
-    print('LISTA DE CONTAS')
-    for i in cliente:
-        dado = i
-        dado[2] = dado[2]
-        print(f'{dado[0]:<5}{dado[1]:<10}{dado[2]:>15}')
-    
-
-def grava_arquivo(cliente):
+def write_file(client):
     with open(ARQ, "w+") as contas:
-        for clnt in cliente:
+        for clnt in client:
             contas.write(str(clnt[0]) + ";" + str(clnt[1]) + ";" + str(clnt[2]) + "\n")
-    print("Arquivo Gravado")
+    print("Arquivo Gravado com sucesso")
 
-
-def en_opcao():
-    dado_ok = False
-    while not dado_ok:
+def enter_option():
+    data_ok = False
+    while (not data_ok):
         try:
-            opcao = int(input("Entre com uma opção: "))
-            if (opcao < 0) or (opcao > 4):
+            option = int(input("Entre com uma opção: "))
+            if (option < 0) or (option > 4):
                 print("Erro: opção inválida")
             else:
-                opcao_ok = True
-                dado_ok = True
+                data_ok = True
         except ValueError:
             print("Erro: entrada inválida")
-    return opcao
-
+    return option
 
 def menu():
-    opcao_ok = False
-    while not opcao_ok:
-        mostra_linha()
+    option_ok = False
+    while (not option_ok):
+        show_lines()
         print('''
     SEJA BEM VINDO AO SISTEMA XPTO
 
@@ -65,55 +55,50 @@ def menu():
     [4] - EXCLUIR CONTA
     [0] - SAIR
     ''')
-        mostra_linha()
-        return en_opcao()
-
+        show_lines()
+        return enter_option()
 
 def validate_account():
     cnt= validate_int()
-    while cnt not in cliente:
-        for i in cliente:
-            while cnt == i[0]:
+    while (cnt not in client):
+        for i in client:
+            while (cnt == i[0]):
                 print('conta ja existe')
                 cnt = validate_int()
         return cnt         
 
-
 def validate_name():
     name= validate_str()
     v_name = name.split(" ")
-    while len(v_name ) <=1 :
-        print("insira nome e sobrenome")
+    while (len(v_name ) <=1):
+        print("insira nome e sobrenome:")
         name= validate_str()
         v_name = name.split(" ")
     return name
-
-    
+  
 def validate_balance():
     sld= validate_float()
-    while sld <= 0:
-        print('Saldo tem que ser maior que zero')
+    while (sld <= 0):
+        print('saldo tem que ser maior que zero')
         return validate_balance()  
     return sld
 
-
 def validate_int():
     int_ok = False
-    while not int_ok:
+    while (not int_ok):
         try:
             cnt = int(input("Informe o codigo do cliente: "))
             int_ok = True
             while cnt <= 0:
                 print("Digite uma conta maior diferente de 0")
-                cnt = validate_int()
+                cnt = validate_int()    
         except ValueError:
             print("Caractere invalido" "\nDigite um numero")
     return cnt
 
-
 def validate_float():
     flt_ok = False
-    while not flt_ok:
+    while (not flt_ok):
         try:
             sld = float(input("Informe o saldo inicial: "))
             flt_ok = True
@@ -121,46 +106,55 @@ def validate_float():
             print("Caractere invalido")
     return sld
 
-
 def validate_str():
     str_ok = False
     try:
-        while not str_ok:
-            nm = (input("Informe o nome do cliente: "))
+        while (not str_ok):
+            nm = str(input("Informe o nome do cliente: "))
             str_ok = True
     except:
         print("Caractere invalido")
         
     return nm
 
-
 def add_accounts():
     cod = validate_account()
-    nome = validate_name()
-    saldo = validate_balance()
-    cliente.append([cod, nome, saldo])
-    print(cliente)
+    name = validate_name()
+    balance = validate_balance()
+    client.append([cod, name, balance])
+    line_acc_nm_blnc()
+    print("{:<5} {:<10} {:>10}".format(cod, name, balance))
 
+def sub_m_m_1():
+    op1 = sub_mn_management_report()
+    while (op1 != FIM):
+        if (op1 == 1):
+            read_reports()          
+        elif (op1 == 2):
+            read_balance_negative()
+        elif (op1 == 3):
+            read_balance_positive()
+        else:
+            print("ERRO: opção inválida")
+        op1 = sub_mn_management_report()
 
-def en_opc_relatorio_gerecial():
-    dado_ok = False
-    while not dado_ok:
+def enter_management_report_option():
+    data_ok = False
+    while (not data_ok):
         try:
-            opcao = int(input("Entre com uma opção: "))
-            if (opcao < 0) or (opcao > 3):
+            option = int(input("Entre com uma opção: "))
+            if (option < 0) or (option > 3):
                 print("Erro: opção inválida")
             else:
-                opcao_ok = True
-                dado_ok = True
+                data_ok = True
         except ValueError:
             print("Erro: entrada inválida")
-    return opcao
+    return option
 
-
-def sub_mn_relatorio_gerencial():
-    opcao_ok = False
-    while not opcao_ok:
-        mostra_linha()
+def sub_mn_management_report():
+    option_ok = False
+    while (not option_ok):
+        show_lines()
         print('''
     RELATORIO GERENCIAL
 
@@ -170,144 +164,117 @@ def sub_mn_relatorio_gerencial():
     [3] - CONTAS COM SALDO ACIMA DE 1000
     [0] - SAIR
     ''')
-        mostra_linha()
-        return en_opc_relatorio_gerecial()
+        show_lines()
+        return enter_management_report_option()
 
-
+def read_reports():
+    print('LISTA DE CONTAS')
+    line_acc_nm_blnc()
+    for i in client:
+        dado = i
+        print(f'{dado[0]:<5}{dado[1]:<10}{dado[2]:>15}')
+        
 def read_balance_negative():
-    print('CONTAS COM SALDO NEGATIVO')  
-    try:
-        for i in cliente:
-            if i[2] < 0:
-                dado = i
-                dado[2] = dado[2]
-                print(f'{dado[0]:<5}{dado[1]:<10}{dado[2]:>15}')
-               
-    except:
-        print("não há contas com saldo negativo")
-
+    print('CONTAS COM SALDO NEGATIVO')
+    line_acc_nm_blnc()
+    for i in client:
+        if (i[2] < 0):
+            dado = i
+            print(f'{dado[0]:<5}{dado[1]:<10}{dado[2]:>15}')
 
 def read_balance_positive():
-    print('CONTAS COM SALDO ACIMA DE 1000') 
-    try:
-        for i in cliente:
-            if i[2] > 1000:
-                dado = i
-                dado[2] = dado[2]
-                print(f'{dado[0]:<5}{dado[1]:<10}{dado[2]:>15}')
-    except:
-        print("não há contas acima de 1000")                      
-         
-
-def change_account():
-    acco = validate_float()
-    contador = 0
-    for i in cliente:
-        if acco == i[0]:
-            if i[2] == 0: 
-                del(cliente[contador])
-                print("Conta removida com sucesso")
-            else:
-                print("conta com saldo")
-        contador += 1
-                    
-
+    print('CONTAS COM SALDO ACIMA DE 1000')
+    line_acc_nm_blnc() 
+    for i in client:
+        if (i[2] > 1000):
+            dado = i  
+            print(f'{dado[0]:<5}{dado[1]:<10}{dado[2]:>15}')
+                   
 def en_op_balance():
-    dado_ok = False
-    while not dado_ok:
+    data_ok = False
+    while (not data_ok):
         try:
-            opcao = int(input("Entre com uma opção: "))
-            if (opcao < 0) or (opcao > 2):
+            option = int(input("Entre com uma opção: "))
+            if (option < 0) or (option > 2):
                 print("Erro: opção inválida")
             else:
-                opcao_ok = True
-                dado_ok = True
+                data_ok = True
         except ValueError:
             print("Erro: entrada inválida")
-    return opcao
-
+    return option
 
 def sub_menu_balance():
-    opcao_ok = False
-    while not opcao_ok:
-        mostra_linha()
+    option_ok = False
+    while (not option_ok):
+        show_lines()
         print('''
        
-    [1] - Depositar
-    [2] - Sacar
-    [0] - Sair
+    [1] - DEPOSITAR
+    [2] - SACAR
+    [0] - SAIR
     ''')
-        mostra_linha()
+        show_lines()
         return en_op_balance()
-        
+
+def sub_m_b_2():
+    op2 = sub_menu_balance()
+    while (op2 != FIM):
+        if (op2 == 1):
+            deposit()       
+        elif (op2 == 2):
+            withdraw()
+        else:
+            print("ERRO: opção inválida")
+        op2 = sub_menu_balance()
 
 def deposit():
     consult = validate_int()
-    for i in cliente:
-        if consult == i[0]:
-            dpst = float(input('Digite o valor do deposito'))
+    for i in client:
+        if (consult == i[0]):
+            dpst = float(input('Digite o valor do deposito:'))
             i[2] = dpst + i[2]
             print("Valor adcionado com sucesso.")
-            print(i[2])  
-
- 
+            print('Saldo:', i[2])
+        
 def withdraw():
     consult = validate_int()
-    for i in cliente:
-        if consult == i[0]:
-            dpst = float(input('Digite o valor do saque'))
+    for i in client:
+        if (consult == i[0]):
+            dpst = float(input('Digite o valor do saque:'))
             i[2] = i[2] - dpst
             print("Saque feito com sucesso.")
-            print(i[2]) 
-
+            print('Saldo:',i[2])
 
 def remove_account():
     acco = validate_int()
-    contador = 0
-    for i in cliente:
-        if acco == i[0]:
-            if i[2] == 0: 
-                del(cliente[contador])
+    counter = 0
+    for i in client:
+        if (acco == i[0]):
+            if (i[2] == 0): 
+                del(client[counter])
                 print("Conta removida com sucesso")
-            else:
+            elif(i[2] > 0):
                 print("conta com saldo")
-        contador += 1
-
-
-lendo_contas()
-opcao = menu()
-while opcao != FIM:
-    if opcao == 1:
+            else:
+                print("conta com saldo negativo")
+        counter += 1        
+           
+read_accounts()
+option = menu()
+while (option != FIM):
+    if (option == 1):
         add_accounts()
-    elif opcao == 2:
-        op1 = sub_mn_relatorio_gerencial()
-        while op1 != FIM:
-            if op1 == 1:
-                ler_relatorio_ger()          
-            elif op1 == 2:
-                read_balance_negative()
-            elif op1 == 3:
-                read_balance_positive()
-            else:
-                print("ERRO: opção inválida")
-            op1 = sub_mn_relatorio_gerencial()    
-    elif opcao == 3:
-        op2 = sub_menu_balance()
-        while op2 != FIM:
-            if op2 == 1:
-                deposit()       
-            elif op2 == 2:
-                withdraw()
-            else:
-                print("ERRO: opção inválida")
-            op2 = sub_menu_balance()
-    elif opcao == 4:
+    elif (option == 2):
+        sub_m_m_1() 
+    elif (option == 3):
+        sub_m_b_2()
+    elif (option == 4):
         remove_account()       
     else:
         print("ERRO: opção inválida")
-    opcao = menu()
-grava_arquivo(cliente)
-mostra_linha()
+    option = menu()
+write_file(client)
+show_lines()
 print("""Você finalizou programa.
 Até logo!""")
-mostra_linha()
+show_lines()
