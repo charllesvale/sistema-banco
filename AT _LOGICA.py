@@ -1,4 +1,4 @@
-ARQ = "F:\\Logica de programação\\AT - LOGICA\\contas.txt"
+ARQ = "F:\\contas.txt"
 FIM = 0
 client = []
 
