@@ -1,4 +1,4 @@
-ARQ = "F:\\contas.txt"
+ARQ = "contas.txt"
 FIM = 0
 client = []
 
